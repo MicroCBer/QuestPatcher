@@ -32,6 +32,9 @@
       <TabItem Header="{x:Static res:Strings.SideBarHeader_ModManage}" IsVisible="{Binding AppInfo.IsModded}" IsSelected="{Binding AppInfo.IsModded}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <UserControl Content="{Binding ManageModsView}" />
       </TabItem>
+      <TabItem Header="更多Mod" IsVisible="{Binding AppInfo.IsModded}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+        <UserControl Content="{Binding BrowseModView}" />
+      </TabItem>
       <TabItem Header="{x:Static res:Strings.SideBarHeader_Other}" IsVisible="{Binding AppInfo.IsModded}" ScrollViewer.VerticalScrollBarVisibility="Disabled">
         <UserControl Content="{Binding OtherItemsView}" />
       </TabItem>

@@ -1,0 +1,39 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:modBrowserVMs="clr-namespace:QuestPatcher.ViewModels.ModBrowser"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="QuestPatcher.Views.ModBrowser.BrowseModView">
+  <Design.DataContext>
+      <modBrowserVMs:BrowseModViewModel />
+  </Design.DataContext>
+  <DockPanel Margin="20 0 20 20">
+    <UserControl DockPanel.Dock="Top" Margin="0 0 0 20" Content="{Binding ProgressView}" />
+    <DockPanel>
+      <Panel DockPanel.Dock="Top">
+        <TextBlock FontSize="18" Text="更多Mod" VerticalAlignment="Center" />
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Spacing="10" IsVisible="{Binding ShowButtons}" IsEnabled="{Binding !Loading}">
+          <Button VerticalAlignment="Center" Command="{Binding OnInstallClicked}" Content="安装/更新"/>
+        </StackPanel>
+      </Panel>
+      <StackPanel IsVisible="{Binding Loading}" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <TextBox HorizontalAlignment="Center" TextAlignment="Center" Text="Mod加载中..."/>
+        <ProgressBar Width="160" IsIndeterminate="True" HorizontalAlignment="Center"/>
+      </StackPanel>
+      <Panel IsVisible="{Binding !Loading}">
+        <!-- TODO Show error -->
+        <TextBox IsVisible="{Binding !Mods.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" Text="暂无Mod"/> 
+        <ScrollViewer Margin="0 10 0 0" IsVisible="{Binding Mods.Count, Converter={x:Static ObjectConverters.NotEqual}, ConverterParameter=0}" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+          <ItemsControl ItemsSource="{Binding Mods}" Background="{DynamicResource ModListBackground}" >
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <UserControl Content="{Binding}" Name="externalMod" />
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </ScrollViewer>
+      </Panel>
+    </DockPanel>
+  </DockPanel>
+</UserControl>

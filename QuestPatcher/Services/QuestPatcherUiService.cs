@@ -9,10 +9,12 @@ using QuestPatcher.Core;
 using QuestPatcher.Core.Models;
 using QuestPatcher.Core.Patching;
 using QuestPatcher.Core.Utils;
+using QuestPatcher.ModBrowser;
 using QuestPatcher.Models;
 using QuestPatcher.Resources;
 using QuestPatcher.Utils;
 using QuestPatcher.ViewModels;
+using QuestPatcher.ViewModels.ModBrowser;
 using QuestPatcher.ViewModels.Modding;
 using QuestPatcher.Views;
 using Serilog;
@@ -35,14 +37,18 @@ namespace QuestPatcher.Services
         private OtherItemsViewModel? _otherItemsView;
         private PatchingViewModel? _patchingView;
         private AboutViewModel? _aboutView;
+        private BrowseModViewModel? _browseModView;
 
         private readonly ThemeManager _themeManager;
         private bool _isShuttingDown;
+        
+        private readonly ExternalModManager _externalModManager;
 
         public QuestPatcherUiService(IClassicDesktopStyleApplicationLifetime appLifetime) : base(new UIPrompter())
         {
             _appLifetime = appLifetime;
             _themeManager = new ThemeManager(Config, SpecialFolders);
+            _externalModManager = new ExternalModManager(ModManager, InstallManager, FilesDownloader, SpecialFolders, _browseManager!);
 
             // Deal with language configuration before we load the UI
             try
@@ -82,6 +88,7 @@ namespace QuestPatcher.Services
             _otherItemsView = new OtherItemsViewModel(OtherFilesManager, window, _browseManager, _operationLocker, progressViewModel);
             _patchingView = new PatchingViewModel(Config, _operationLocker, PatchingManager, InstallManager, window, progressViewModel, FilesDownloader);
             _aboutView = new AboutViewModel(progressViewModel);
+            _browseModView = new BrowseModViewModel(window, Config, _operationLocker, progressViewModel, InstallManager, _externalModManager);
 
             MainWindowViewModel mainWindowViewModel = new(
                 new LoadedViewModel(
@@ -94,7 +101,8 @@ namespace QuestPatcher.Services
                     _aboutView,
                     Config,
                     InstallManager,
-                    _browseManager
+                    _browseManager,
+                    _browseModView
                 ),
                 new LoadingViewModel(progressViewModel, _loggingViewModel, Config),
                 this

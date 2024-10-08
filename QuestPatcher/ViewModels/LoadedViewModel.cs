@@ -6,6 +6,7 @@ using Avalonia.Input;
 using QuestPatcher.Core;
 using QuestPatcher.Core.Models;
 using QuestPatcher.Resources;
+using QuestPatcher.ViewModels.ModBrowser;
 using QuestPatcher.ViewModels.Modding;
 using ReactiveUI;
 using Serilog;
@@ -27,6 +28,8 @@ namespace QuestPatcher.ViewModels
         public OtherItemsViewModel OtherItemsView { get; }
         
         public AboutViewModel AboutView { get; }
+                
+        public BrowseModViewModel BrowseModView { get; }
 
         private string AppName
         {
@@ -57,7 +60,7 @@ namespace QuestPatcher.ViewModels
         private readonly InstallManager _installManager;
         private readonly BrowseImportManager _browseManager;
 
-        public LoadedViewModel(PatchingViewModel patchingView, ManageModsViewModel manageModsView, LoggingViewModel loggingView, ToolsViewModel toolsView, OtherItemsViewModel otherItemsView, AboutViewModel aboutView, Config config, InstallManager installManager, BrowseImportManager browseManager)
+        public LoadedViewModel(PatchingViewModel patchingView, ManageModsViewModel manageModsView, LoggingViewModel loggingView, ToolsViewModel toolsView, OtherItemsViewModel otherItemsView, AboutViewModel aboutView, Config config, InstallManager installManager, BrowseImportManager browseManager, BrowseModViewModel browseModView)
         {
             PatchingView = patchingView;
             LoggingView = loggingView;
@@ -65,6 +68,7 @@ namespace QuestPatcher.ViewModels
             ManageModsView = manageModsView;
             OtherItemsView = otherItemsView;
             AboutView = aboutView;
+            BrowseModView = browseModView;
 
             Config = config;
             _installManager = installManager;
